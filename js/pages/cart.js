@@ -674,6 +674,13 @@ const renderCart = async () => {
     cartContainer.innerHTML = "Loading..."
     try {
         const token = localStorage.getItem("token")
+        if (!token) {
+            emptyCart()
+            renderProducts()
+            recommendedProducts.style.display = "block"
+            window.addEventListener("scroll", handleInfiniteScroll)
+            return
+        }
         const res = await fetch(`${API_BASE_URL}/cart`, {
             headers: { Authorization: `Bearer ${token}` }
         })
