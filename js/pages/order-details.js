@@ -41,34 +41,51 @@ const customConfirm = () => {
 
 
 const handleCancelOrder = async (orderId) => {
-    const isConfirmed = await customConfirm()
+    const isConfirmed = await customConfirm();
     if (!isConfirmed) return;
 
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
 
-    const cancelBtn = document.querySelector(".btn-cancel");
-    if(cancelBtn) cancelBtn.disabled = true
+    // 1. Target the button inside the modal for the loading state
+    const modalConfirmBtn = document.getElementById("modal-confirm");
+    const modalCancelBtn = document.getElementById("modal-cancel");
+    const originalText = modalConfirmBtn.textContent;
 
     try {
+        // Disable both buttons in modal to prevent interaction during fetch
+        modalConfirmBtn.disabled = true;
+        modalCancelBtn.disabled = true;
+        modalConfirmBtn.textContent = "Cancelling...";
+
         const res = await fetch(`${API_BASE_URL}/order/${orderId}/cancel`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
-        })
-        if (!res.ok) {
-            throw new Error("Failed to cancel order")
-        }
-        showToast("Order cancelled successfully", "cancel")
+        });
 
+        if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.msg || "Failed to cancel order");
+        }
+
+        modalConfirmBtn.textContent = "Cancelled";
+        showToast("Order cancelled successfully", "success");
+
+        // Close modal after a short delay before reloading
         setTimeout(() => {
+            document.getElementById("confirm-modal").style.display = "none";
             window.location.reload();
-        }, 2000);
-    }
-    catch (error) {
-        showToast(error.message, "error")
-        if (btn) btn.disabled = false; // Re-enable if failed
+        }, 1500);
+
+    } catch (error) {
+        showToast(error.message, "error");
+
+        // 2. Reset modal state on error so user can try again or close
+        modalConfirmBtn.disabled = false;
+        modalCancelBtn.disabled = false;
+        modalConfirmBtn.textContent = originalText;
     }
 }
 

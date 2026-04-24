@@ -3,8 +3,19 @@
 .cart-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 24px;
+    gap: 32px;
+    
+    /* Centering logic */
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 5%;
+    
+    /* The Spacer - Increased to ensure no overlap */
+    /* padding-top: 80px !important;  */
+    
+    box-sizing: border-box;
+    width: 100%;
 }
 
 /* ================= CART CONTAINER ================= */
@@ -324,6 +335,12 @@
    CART UI COMPRESSION (NON-LAYOUT BREAKING)
 ========================================= */
 
+    .cart-wrapper {
+        /* margin-top: 100px; */
+        /* Adjusted for smaller mobile navbar */
+        padding: 0 20px;
+    }
+
     .cart-item-name {
         font-size: 14px;
         /* was 20px */
@@ -461,3 +478,4 @@
         gap: 6px;
     }
 }
+

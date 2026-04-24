@@ -7,8 +7,24 @@
 }
 
 body {
-
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding-top: 80px;
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

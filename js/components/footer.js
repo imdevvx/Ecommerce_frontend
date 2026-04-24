@@ -30,7 +30,7 @@ export const renderFooter = () => {
 
         <div class="footer-col social-col">
           <div class="footer-social-links">
-            <a href="https://instagram.com/devoided_dev" target="_blank" class="social-item">
+            <a href="https://instagram.com/imdevx" target="_blank" class="social-item">
               Instagram
             </a>
             <a href="https://wa.me/9953060636" target="_blank" class="social-item">

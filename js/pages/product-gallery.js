@@ -57,7 +57,7 @@ const addToCart = async (productId, quantity) => {
 
 
 /* ===================== AUTH FLOW ===================== */
-const handleAddToCartClick = async (productId) => {
+const handleAddToCartClick = async (productId, btnElement) => {
     const token = localStorage.getItem("token")
 
     if (!selectedSize) {
@@ -66,23 +66,36 @@ const handleAddToCartClick = async (productId) => {
     }
 
     if (!token) {
-
         localStorage.setItem("redirectAfterLogin", "add-to-cart")
         localStorage.setItem("pendingProductId", productId)
         localStorage.setItem("pendingQty", 1)
         localStorage.setItem("pendingSize", selectedSize)
-
         window.location.href = "signup.html"
         return
     }
+
+    // 1. Set Loading State
+    const originalText = btnElement.textContent;
+    btnElement.disabled = true;
+    btnElement.textContent = "Adding...";
 
     try {
         await addToCart(productId, 1)
         updateCartCount()
         showToast("Item added to cart", "cart")
-    }
-    catch (error) {
-        console.log(error.message, "error")
+        
+        // Success state feedback
+        btnElement.textContent = "Added!";
+        setTimeout(() => {
+            btnElement.disabled = false;
+            btnElement.textContent = originalText;
+        }, 2000);
+
+    } catch (error) {
+        showToast(error.message, "error")
+        // Reset on error
+        btnElement.disabled = false;
+        btnElement.textContent = originalText;
     }
 }
 
@@ -116,97 +129,116 @@ const handleAfterLogin = async () => {
 }
 
 
-/* ===================== RENDER ===================== */
+/* ===================== RENDER PRODUCT DETAILS ===================== */
 const renderProductDetails = async () => {
-
     try {
         const res = await fetch(`${API_BASE_URL}/product/${productId}`, {
             method: "GET",
-            headers: {
-                "Content-type": "application/json",
-            }
-        })
-        const data = await res.json()
-        const product = data.product
-        console.log(data)
-        console.log(product)
+            headers: { "Content-type": "application/json" }
+        });
+        const data = await res.json();
+        const product = data.product;
 
+        /* --- 1. Images Section --- */
+        const productImages = document.createElement("div");
+        productImages.classList.add("product-images");
 
+        const thumbnailList = document.createElement("div");
+        thumbnailList.classList.add("thumbnail-list");
 
-        /* Images */
-        const productImages = document.createElement("div")
-        productImages.classList.add("product-images")
+        // Main Image Slider Wrapper
+        const mainImageSlider = document.createElement("div");
+        mainImageSlider.classList.add("main-image-slider");
 
-        const thumbnailList = document.createElement("div")
-        thumbnailList.classList.add("thumbnail-list")
+        // The Scrollable Filmstrip
+        const filmstrip = document.createElement("div");
+        filmstrip.classList.add("filmstrip");
 
-        const mainImage = document.createElement("div")
-        mainImage.classList.add("main-image")
+        // Create images for the filmstrip and thumbnails
+        product.images.forEach((image, index) => {
+            // Filmstrip Image
+            const slideImg = document.createElement("img");
+            slideImg.src = image;
+            slideImg.alt = `Slide ${index + 1}`;
+            filmstrip.append(slideImg);
 
-        const mainImg = document.createElement("img")
-        mainImg.src = product.images[0]
+            // Thumbnail Image
+            const thumbImg = document.createElement("img");
+            thumbImg.src = image;
+            if (index === 0) thumbImg.classList.add("active");
 
-        mainImage.append(mainImg)
+            thumbImg.addEventListener("click", () => {
+                // Scroll filmstrip to index
+                const scrollAmount = filmstrip.clientWidth * index;
+                filmstrip.scrollTo({ left: scrollAmount, behavior: "smooth" });
 
-
-        product.images.forEach(image => {
-            const img = document.createElement("img")
-            img.src = image
-
-            img.addEventListener("click", () => {
-                mainImg.src = image
-
-                document.querySelectorAll(".thumbnail-list img")
-                    .forEach(t => t.classList.remove("active"))
-
-                img.classList.add("active")
-            })
-            thumbnailList.append(img)
+                // UI Update
+                document.querySelectorAll(".thumbnail-list img").forEach(t => t.classList.remove("active"));
+                thumbImg.classList.add("active");
+            });
+            thumbnailList.append(thumbImg);
         });
 
+        // Loop Logic: Click main image to go to next (Infinite Loop)
+        filmstrip.addEventListener("click", () => {
+            const currentScroll = filmstrip.scrollLeft;
+            const maxScroll = filmstrip.scrollWidth - filmstrip.clientWidth;
 
+            if (currentScroll >= maxScroll - 10) {
+                filmstrip.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+                filmstrip.scrollBy({ left: filmstrip.clientWidth, behavior: "smooth" });
+            }
+        });
 
-        /* Info */
-        const productInfo = document.createElement("div")
-        productInfo.classList.add("product-info")
+        // Sync Thumbnails on Swipe/Scroll
+        filmstrip.addEventListener("scroll", () => {
+            const index = Math.round(filmstrip.scrollLeft / filmstrip.clientWidth);
+            const thumbs = document.querySelectorAll(".thumbnail-list img");
+            thumbs.forEach(t => t.classList.remove("active"));
+            if (thumbs[index]) thumbs[index].classList.add("active");
+        });
 
+        mainImageSlider.append(filmstrip);
 
-        productInfo.innerHTML =
-            `
-        <h1 class="product-name">${product.color} ${product.category.name}'s ${product.name}</h1>
-        <p class="product-price">₹${product.price}</p>
-        <p class="product-description">${product.description}</p>
+        /* --- 2. Info Section --- */
+        const productInfo = document.createElement("div");
+        productInfo.classList.add("product-info");
 
-        <div class="size-section">
-            <p class="size-label">Select Size</p>
-            <div class="size-options">
-                <button class="size-btn" data-size="28">28</button>
-                <button class="size-btn" data-size="30">30</button>
-                <button class="size-btn" data-size="32">32</button>
-                <button class="size-btn" data-size="34">34</button>
+        // Title Case Formatting for Name
+        const rawName = `${product.color} ${product.category.name}'s ${product.name}`.toLowerCase();
+        const formattedName = rawName.replace(/\b\w/g, s => s.toUpperCase());
+
+        productInfo.innerHTML = `
+            <h1 class="product-name">${formattedName}</h1>
+            <p class="product-price">₹${product.price.toLocaleString('en-IN')}</p>
+            <p class="product-description">${product.description}</p>
+
+            <div class="size-section">
+                <p class="size-label">Select Size</p>
+                <div class="size-options">
+                    ${product.sizes.map(size => `<button class="size-btn" data-size="${size}">${size}</button>`).join('')}
+                </div>
             </div>
-        </div>
-        `
+        `;
 
-        const addToCartBtn = document.createElement("button")
-        addToCartBtn.classList.add("add-to-cart-btn")
-        addToCartBtn.textContent = "Add To Cart"
+        const addToCartBtn = document.createElement("button");
+        addToCartBtn.classList.add("add-to-cart-btn");
+        addToCartBtn.textContent = "Add To Cart";
 
-        productInfo.append(addToCartBtn)
-        productImages.append(thumbnailList, mainImage)
-        productGallery.append(productImages, productInfo)
+        productInfo.append(addToCartBtn);
+        productImages.append(thumbnailList, mainImageSlider);
+        productGallery.append(productImages, productInfo);
 
-        addToCartBtn.addEventListener("click", () => {
-            handleAddToCartClick(productId)
-        })
-        initSizeSelection()
-        renderRelatedProducts(product.category.slug, product.color, productId)
+        // Event Listeners
+        addToCartBtn.addEventListener("click", () => handleAddToCartClick(productId, addToCartBtn));
+        initSizeSelection();
+        renderRelatedProducts(product.category.slug, product.color, productId);
+
+    } catch (error) {
+        console.error("Render Error:", error.message);
     }
-    catch (error) {
-        console.log(error.message, "error")
-    }
-
-}
+};
 
 
 const renderRelatedProducts = async (category, color, currentProductId) => {

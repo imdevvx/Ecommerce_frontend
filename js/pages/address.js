@@ -48,24 +48,30 @@ const loadAddressIfExist = async () => {
 
 /* ======================= SUBMIT ADDRESS ======================= */
 const submitAddressForm = async (e) => {
-    e.preventDefault()
-    const token = localStorage.getItem("token")
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    // Select the button and store original text
+    const submitBtn = document.querySelector("#save-address-btn");
+    const originalBtnText = submitBtn.textContent;
 
     if (!token) {
         window.location.href = "signup.html";
         return;
     }
 
-    const fullName = document.querySelector("#fullName").value
-    const phone = document.querySelector("#phone").value
-    const addressLine = document.querySelector("#addressLine").value
-    const city = document.querySelector("#city").value
-    const state = document.querySelector("#state").value
-    const pincode = document.querySelector("#pincode").value
-
-    console.log(fullName, phone, addressLine, city, state, pincode)
+    const fullName = document.querySelector("#fullName").value;
+    const phone = document.querySelector("#phone").value;
+    const addressLine = document.querySelector("#addressLine").value;
+    const city = document.querySelector("#city").value;
+    const state = document.querySelector("#state").value;
+    const pincode = document.querySelector("#pincode").value;
 
     try {
+        // 1. Disable button and show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Saving Address...";
+
         const res = await fetch(`${API_BASE_URL}/address`, {
             method: "PUT",
             headers: {
@@ -80,39 +86,39 @@ const submitAddressForm = async (e) => {
                 state,
                 pincode
             })
-        })
+        });
 
-        const data = await res.json()
-        console.log(data)
+        const data = await res.json();
 
         if (!res.ok) {
-            throw new Error(data.msg || "Something went wrong")
+            throw new Error(data.msg || "Something went wrong");
         }
 
-        const redirect = localStorage.getItem("redirectAfterAddress")
+        const redirect = localStorage.getItem("redirectAfterAddress");
 
-        if (redirect === "checkout") {
-            showToast("Address saved successfully", "success")
-            setTimeout(()=>{
-                window.location.href = "checkout.html"
-            }, 1500)
-        }
+        showToast("Address saved successfully", "success");
 
-        else {
-            showToast("Address saved successfully", "success")
-            setTimeout(()=>{
-                window.location.href = "profile.html"
-            }, 1500)
-        }
-        localStorage.removeItem("redirectAfterAddress")
+        setTimeout(() => {
+            if (redirect === "checkout") {
+                window.location.href = "checkout.html";
+            } else {
+                window.location.href = "profile.html";
+            }
+            localStorage.removeItem("redirectAfterAddress");
+        }, 1500);
+
+    } catch (error) {
+        showToast(error.message, "error");
+        console.log(error.message);
+
+        // 2. Restore button only on error (on success we redirect anyway)
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
     }
-    catch (error) {
-        console.log(error.message)
-    }
+};
 
-}
 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
     renderNavbar()
     loadAddressIfExist()
 })

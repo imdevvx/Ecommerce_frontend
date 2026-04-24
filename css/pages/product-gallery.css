@@ -176,7 +176,7 @@
     flex-direction: column;
     gap: 20px;
     padding: 1.5rem 5%;
-    margin-top: 1rem ;
+    margin-top: 1rem;
   }
 
   /* Image row: main image LEFT, thumbnails RIGHT */
@@ -242,7 +242,7 @@
 @media (max-width: 480px) {
 
   .product-gallery {
-    margin-top: 0 ;
+    margin-top: 0;
   }
 
   .thumbnail-list img {
@@ -266,4 +266,74 @@
     text-align: center;
     padding: 10px 14px;
   }
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #f4f4f4;
+  /* Light grey for premium feel */
+  color: #a1a1a1;
+  cursor: not-allowed;
+  border: 1px solid #ddd;
+}
+
+/* Optional: a subtle animation for the "Adding" state */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.add-to-cart-btn:disabled:not(.added) {
+  animation: pulse 1.5s infinite;
+}
+
+
+
+/* Update these in your CSS */
+.main-image-slider {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer; /* To indicate it's clickable */
+}
+
+.filmstrip {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* Forces images to snap into place */
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+    scrollbar-width: none;  /* Hide scrollbar Firefox */
+}
+
+.filmstrip::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.filmstrip img {
+    min-width: 100%;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Mobile Fix: Ensure thumbnails don't break the layout */
+@media (max-width: 768px) {
+    .thumbnail-list {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
 }

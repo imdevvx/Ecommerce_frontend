@@ -1,121 +1,162 @@
-body {
-  padding-top: 72px;
-}
-
-/* =================== NAVBAR =================== */
+/* ================= NAVBAR BASE ================= */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 25px;
-  border-bottom: 1px solid #eee;
+  padding: 0 5%;
   background: #fff;
   z-index: 1000;
   box-sizing: border-box;
-  /* Ensures padding doesn't break width */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  /* transition: transform 0.2s ease-in-out; */
+  /* Smooth hide/show effect */
 }
 
-.navbar .home,
-.cart,
-.orders,
-.login-account {
-  font-size: 18px;
-  text-decoration: none;
-  color: #111;
-  font-weight: 300;
-  white-space: nowrap;
-  /* Keeps links on one line */
-}
+/* .navbar--hidden {
+  transform: translateY(-100%);
+} */
 
 .logo {
-  color: #111;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-decoration: none;
-  font-size: 26px;
-  font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  /* Prevents logo from squishing */
+  color: #000;
 }
 
-.navbar nav {
+.nav-right {
   display: flex;
-  gap: 25px;
   align-items: center;
+  gap: 30px;
 }
 
+.desktop-nav {
+  display: flex;
+  gap: 30px;
+}
 
+.desktop-nav a,
+.cart {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  transition: opacity 0.3s;
+}
+
+.desktop-nav a:hover,
+.cart:hover {
+  opacity: 0.6;
+}
 
 .cart-count {
-  background: black;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
+  background: #000;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 7px;
   border-radius: 50%;
-  margin-left: 4px;
+  vertical-align: top;
+  margin-left: 2px;
 }
 
-/* =================== RESPONSIVE SETTINGS =================== */
+/* Hamburger Styles */
+.hamburger {
+  display: none;
+  /* Hide on desktop */
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
 
-/* For screens smaller than 768px (Phones) */
+.hamburger span {
+  width: 25px;
+  height: 2px;
+  background: #000;
+  transition: 0.3s;
+}
+
+/* ================= SIDEBAR (MOBILE) ================= */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  /* Hidden by default */
+  width: 300px;
+  height: 100vh;
+  background: #fff;
+  z-index: 2000;
+  transition: 0.4s ease-in-out;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 50px;
+}
+
+.close-btn {
+  font-size: 35px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.sidebar-links a {
+  font-size: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: 1500;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-
-  .navbar .home,
-  .cart,
-  .orders,
-  .login-account {
-    font-size: 16px;
+  .desktop-nav {
+    display: none;
+    /* Hide desktop links */
   }
 
-  .navbar nav {
-    gap: 22px;
+  .hamburger {
+    display: flex;
+    /* Show hamburger */
   }
 
-  .logo {
-    font-size: 24px;
-  }
-}
-
-
-
-@media (max-width: 480px) {
-
-  .navbar .home,
-  .cart,
-  .orders,
-  .login-account {
-    font-size: 14px;
-  }
-
-  .navbar nav {
-    gap: 18px;
-  }
-
-  .logo{
-    font-size: 22px;
-  }
-}
-
-
-
-/* Extra small screens (iPhone SE, etc) */
-@media (max-width: 380px) {
-
-  .navbar .home,
-  .cart,
-  .orders,
-  .login-account {
-    font-size: 12px;
-  }
-
-  .navbar nav {
-    gap: 16px;
-  }
-
-  .logo {
-    font-size: 20px;
+  .navbar {
+    height: 70px;
+    padding: 0 20px;
   }
 }

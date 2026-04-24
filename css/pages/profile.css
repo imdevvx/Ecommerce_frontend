@@ -228,3 +228,18 @@
     color: #000;
   }
 }
+
+.loading-text {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.action-btn.logout:disabled {
+    background-color: #eee;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #ddd;
+}

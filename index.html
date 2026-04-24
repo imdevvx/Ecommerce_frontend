@@ -16,10 +16,12 @@
 
   <!-- navbar and footer -->
   <link rel="stylesheet" href="./css/components/navbar.css">
+  <link rel="stylesheet" href="./css/components/hero.css">
   <link rel="stylesheet" href="./css/components/footer.css">
 
   <!-- page specific css -->
   <link rel="stylesheet" href="./css/pages/index.css">
+  <!-- <link rel="stylesheet" href="../index.css"> -->
 
 </head>
 
@@ -28,46 +30,89 @@
   <header id="navbar"></header>
   <div id="toast-container"></div>
 
-  <!-- Hero -->
+
   <section class="hero">
-    <h1>Premium Denim Collection</h1>
-    <p>Designed for comfort. Built for style.</p>
+    <img src="./assets/images/mens-denim-fashion.jpg" alt="Premium Denim Collection" class="hero-img">
+
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Premium Denim Collection</h1>
+      <p>Premium denim engineered for everyday wear and timeless style.</p>
+      <a href="#product-cards-container" class="hero-btn">Shop Now</a>
+    </div>
   </section>
 
-  <!-- Products -->
-  <main class="container">
-
-    <section class="filters">
-      <select id="category-filter">
-        <option value="" class="select-filter">All Categories</option>
-        <option value="men">Men</option>
-        <option value="women">Women</option>
-      </select>
-
-      <select id="color-filter">
-        <option value="" class="select-filter">All Colors</option>
-        <option value="blue">Blue</option>
-        <option value="black">Black</option>
-        <option value="grey">Grey</option>
-      </select>
-
-      <select id="price-filter">
-        <option value="" class="select-filter">Sort by Price</option>
-        <option value="low">Low → High</option>
-        <option value="high">High → Low</option>
-      </select>
-
-      <button class="clear-filters">Clear Filters</button>
-    </section>
 
 
-    <h2 class="section-title">Our Products</h2>
+  <section class="container">
+    <h1 class="section-title">Explore Collections</h1>
+    <div class="bento-grid">
+      <div class="bento-card large">
+        <!-- <img src="./assets/images/maria-kovalets-N9t25W-dvDc-unsplash.jpg" alt="Men's Edit"> -->
+        <!-- <img src="./assets/images/couple-casual-clothes-standing-against-blue-wall.jpg" alt="Men's Edit"> -->
+        <img src="./assets/images/mensedit3.jpg" alt="Men's Edit">
+        <div class="bento-overlay">
+          <h3>Men's Edit</h3>
+          <p>Rugged & Refined. Built for the modern man.</p>
+          <a href="./collection.html?type=men" class="bento-btn">Explore Collection</a>
+        </div>
+      </div>
 
-    <div id="product-cards-container" class="products-grid">
-      <!-- product card will be rendered here via js -->
+      <div class="bento-card">
+        <img src="./assets/images/Gemini_Generated_Image_32xmdb32xmdb32xm.png" alt="Women's Edit">
+        <div class="bento-overlay">
+          <h3>New Arrivals</h3>
+          <p>Fresh styles just dropped. Stay ahead with the latest denim trends.</p>
+          <a href="./collection.html?type=new" class="bento-btn">Shop Now</a>
+        </div>
+      </div>
+
+      <div class="bento-card">
+        <img src="./assets/images/or-hakim-LSk5paRLh-Y-unsplash.jpg" alt="New Arrivals">
+        <div class="bento-overlay">
+          <h3>Best sellers</h3>
+          <p>Our most loved fits, trusted by hundreds of customers.</p>
+          <a href="./collection.html?type=bestseller" class="bento-btn">Discover</a>
+        </div>
+      </div>
     </div>
+  </section>
 
-  </main>
+
+  <section class="container">
+    <h1 class="section-title">Top Products</h1>
+    <div class="bento-grid">
+      <div class="bento-card large">
+        <img src="./assets/images/alex-pshenianykov-tn1fZMusweE-unsplash.jpg" alt="Slim Fit">
+        <div class="bento-overlay">
+          <div class="bento-badge">Must Have</div>
+          <h3>DVL Straight Fit Raw</h3>
+          <p>The ultimate daily driver. Crafted from 14oz Japanese Selvedge.</p>
+          <a href="#" class="bento-btn">View Product — ₹3,499</a>
+        </div>
+      </div>
+
+      <div class="bento-card">
+        <img src="./assets/images/relaxed-indigo.jpg" alt="Relaxed Indigo">
+        <div class="bento-overlay">
+          <div class="bento-badge">Best Seller</div>
+          <h3>Relaxed Indigo</h3>
+          <p>Easy fit, everyday comfort. Perfect for laid-back styling.</p>
+          <a href="#" class="bento-btn">₹4,299</a>
+        </div>
+      </div>
+
+      <div class="bento-card">
+        <img src="./assets/images/black.jpg" alt="Vintage Black">
+        <div class="bento-overlay">
+          <div class="bento-badge">Limited</div>
+          <h3>Vintage Black</h3>
+          <p>Timeless black denim with a bold, modern edge.</p>
+          <a href="#" class="bento-btn">₹3,999</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <div id="footer"></div>
 

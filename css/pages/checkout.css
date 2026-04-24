@@ -226,3 +226,23 @@
     letter-spacing: 1.4px;
   }
 }
+
+
+.place-order-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 16px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.place-order-btn:disabled {
+    background: #888;
+    cursor: not-allowed;
+}
