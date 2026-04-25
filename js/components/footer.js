@@ -12,10 +12,9 @@ export const renderFooter = () => {
         <div class="footer-col shop-col">
           <h3>Shop</h3>
           <ul>
-            <li><a href="index.html">All Collections</a></li>
-            <li><a href="index.html?category=men">Men's Jeans</a></li>
-            <li><a href="index.html?category=women">Women's Jeans</a></li>
-            <li><a href="index.html?sort=latest">New Arrivals</a></li>
+            <li><a href="#exp_collection">All Collections</a></li>
+            <li><a href="./collection.html?type=men">Men's Jeans</a></li>
+            <li><a href="./collection.html?type=new">New Arrivals</a></li>
           </ul>
         </div>
 
@@ -33,7 +32,7 @@ export const renderFooter = () => {
             <a href="https://instagram.com/imdevx" target="_blank" class="social-item">
               Instagram
             </a>
-            <a href="https://wa.me/9953060636" target="_blank" class="social-item">
+            <a href="https://wa.me/8588949227" target="_blank" class="social-item">
               WhatsApp
             </a>
           </div>
