@@ -15,7 +15,7 @@ It focuses on **performance, simplicity, and real-world usability** without rely
 
 ## 🌐 Live Demo
 
-👉 **View Live Project:** https://portfolio-frontend-zrrw.onrender.com
+👉 **View Live Project:** https://ecommerce-frontend-kp63.onrender.com
 
 ---
 
