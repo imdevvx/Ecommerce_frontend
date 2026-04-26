@@ -1,4 +1,4 @@
-# 🛍️ DVL E-Commerce Frontend
+# 🛍️ E-Commerce Frontend
 
 A clean, responsive, and fully functional **E-Commerce Frontend** built using **HTML, CSS, and JavaScript**.  
 This is a **real-world UI implementation** designed to work seamlessly with the backend API and deliver a smooth shopping experience.
