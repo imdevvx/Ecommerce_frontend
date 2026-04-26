@@ -13,6 +13,12 @@ It focuses on **performance, simplicity, and real-world usability** without rely
 
 ---
 
+## 🌐 Live Demo
+
+👉 **View Live Project:** https://portfolio-frontend-zrrw.onrender.com
+
+---
+
 ## 🔄 Application Flow
 
 1. User lands on the homepage  
@@ -109,13 +115,13 @@ cd Ecommerce_frontend
 
 2. Run the project
 
-Simply open:
+- Simply open:
 
 ```
 index.html
 ```
 
-Or use Live Server in VS Code for a better experience.
+- Or use Live Server in VS Code for a better experience.
 
 ## 🔗 Backend Integration
 
