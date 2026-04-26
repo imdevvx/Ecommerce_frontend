@@ -60,6 +60,9 @@ It focuses on **performance, simplicity, and real-world usability** without rely
 
 ```
 Ecommerce_frontend/
+├── assets/
+│   ├── icons/
+│   ├── images/
 │
 ├── css/
 │   ├── components/
